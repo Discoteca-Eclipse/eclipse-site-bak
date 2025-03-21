@@ -1,4 +1,4 @@
-name: 🚀 Deploy Astro to EC2
+name: 🚀 Deploy Astro to EC2 via SSM
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   build:
@@ -24,41 +25,62 @@ jobs:
       - name: 📦 Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: 🏗️ Build for production
+      - name: 🏰️ Build for production
+        env:
+          PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
         run: bun run build -- --production
 
-      - name: 📡 Upload artifact
-        uses: actions/upload-artifact@v3
+      - name: 📬 Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: astro-dist
           path: dist
 
   deploy:
-    name: Deploy to EC2
+    name: Deploy to EC2 via SSM
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
-      - name: 📥 Download artifact
-        uses: actions/download-artifact@v3
+      - name: 🔑 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
         with:
-          name: astro-dist
-          path: dist
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: 🔑 Setup SSH Agent & Deploy files
-        env:
-          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-          EC2_USER: ${{ secrets.EC2_USER }}
-          EC2_HOST: ${{ secrets.EC2_HOST }}
-          DEPLOY_PATH: ${{ secrets.EC2_DEPLOY_PATH }}
-
+      - name: 🔄 Get Latest Artifact ID
+        id: get-artifact-id
         run: |
-          echo "$SSH_KEY" | ssh-agent bash -c '
-            ssh-add -;
+          ARTIFACT_ID=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | \
+            jq -r '.artifacts | map(select(.name == "astro-dist")) | first.id')
 
-            # Remove old files in EC2
-            ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "rm -rf $DEPLOY_PATH/*";
+          if [ "$ARTIFACT_ID" == "null" ]; then
+            echo "Error: No artifact found!"
+            exit 1
+          fi
 
-            # Copy new build files
-            scp -r dist/* $EC2_USER@$EC2_HOST:$DEPLOY_PATH;
-          '
+          echo "ARTIFACT_ID=$ARTIFACT_ID" >> $GITHUB_ENV
+
+      - name: 🔄 Deploy to EC2 using SSM
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets Key=instanceIds,Values=${{ secrets.EC2_INSTANCE_ID }} \
+            --parameters 'commands=[
+              "export GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}",
+              "export OWNER=${{ github.repository_owner }}",
+              "export REPO=${{ github.event.repository.name }}",
+              "ARTIFACT_ID=$(curl -s -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.v3+json\" \"https://api.github.com/repos/$OWNER/$REPO/actions/artifacts\" | jq -r \".artifacts | map(select(.name == \\\"astro-dist\\\")) | first.id\")",
+              "if [ \"$ARTIFACT_ID\" == \"null\" ]; then echo \"Error: No artifact found!\"; exit 1; fi",
+              "curl -H \"Authorization: token $GITHUB_TOKEN\" -H \"Accept: application/vnd.github.v3+json\" -L \"https://api.github.com/repos/$OWNER/$REPO/actions/artifacts/$ARTIFACT_ID/zip\" -o /tmp/astro-dist.zip",
+              "mkdir -p ${{ secrets.DEPLOY_PATH }}",
+              "rm -rf ${{ secrets.DEPLOY_PATH }}/*",
+              "unzip -o /tmp/astro-dist.zip -d ${{ secrets.DEPLOY_PATH }}",
+              "rm -f /tmp/astro-dist.zip"
+            ]' \
+            --region ${{ secrets.AWS_REGION }}
