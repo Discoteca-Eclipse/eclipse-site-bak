@@ -22,7 +22,7 @@ const clubEvents: ClubEventToList[] = await getUpcomingEvents();
     <h4>{getTranslation(lang, 'home.marquee')}</h4>
   </CustomMarquee>
 
-  <div class="home-content">
+  <div class="home-content" client:load>
     {clubEvents.length > 0 &&
       <HomeUpcomingEvents clubEvents={clubEvents}/>
     }
