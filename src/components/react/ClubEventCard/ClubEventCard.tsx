@@ -8,13 +8,18 @@ interface Props {
 }
 
 const ClubEventCard = ({item, lang}: Props) => {
-  const formattedDate = new Intl.DateTimeFormat(lang, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(new Date(item.date));
+  let formattedDate = getTranslation(lang, 'home.comingSoon');
+
+  if (item && item.id > 0) {
+    formattedDate = new Intl.DateTimeFormat(lang, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Europe/Madrid',
+    }).format(new Date(item.date));
+  }
 
   return (
     <div className="card-container">
@@ -29,16 +34,18 @@ const ClubEventCard = ({item, lang}: Props) => {
         </div>
 
         <div className="event">
-          <h3>{item.name}</h3>
-          <p>
-            <span>{getTranslation(lang, 'home.info')}</span>
-            {item.ticketsUrl && <span>/</span>}
-            {item.ticketsUrl &&
-              <a href={item.ticketsUrl} target="_blank" rel="noopener" className="buy-tickets">
-                {getTranslation(lang, 'home.buyTickets')}
-              </a>
-            }
-          </p>
+          {item.id > 0 && <p>{item.name}</p>}
+          {item.id > 0 &&
+            <p>
+              <span>{getTranslation(lang, 'home.info')}</span>
+              {item.ticketsUrl && <span>/</span>}
+              {item.ticketsUrl &&
+                <a href={item.ticketsUrl} target="_blank" rel="noopener" className="buy-tickets">
+                  {getTranslation(lang, 'home.buyTickets')}
+                </a>
+              }
+            </p>
+          }
         </div>
       </div>
     </div>
