@@ -35,6 +35,19 @@
       display: block;
     }
   }
+
+  .gif {
+    position: absolute;
+    height: 50px;
+    width: auto;
+    bottom: 25px;
+    z-index: 1;
+    filter: invert(1) brightness(.8) contrast(1.5);
+  }
+
+  .scroll-hidden {
+    opacity: 0;
+  }
 }
 
 
@@ -52,6 +65,10 @@
       &.desktop-video {
         display: block;
       }
+    }
+
+    .gif {
+      bottom: 10px;
     }
   }
 }

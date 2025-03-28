@@ -4,12 +4,26 @@ import './HomeVideo.scss'
 
 <section class="video-container">
   <video class="mobile-video" autoplay loop muted playsinline>
-    <source src="https://res.cloudinary.com/dzb2wocuz/video/upload/v1742552583/zued80kb0oeywkzcaywk.mp4" type="video/mp4">
+    <source src="https://res.cloudinary.com/dzb2wocuz/video/upload/v1742552583/zued80kb0oeywkzcaywk.mp4"
+            type="video/mp4">
   </video>
 
   <video class="desktop-video" autoplay loop muted playsinline>
-    <source src="https://res.cloudinary.com/dzb2wocuz/video/upload/v1742552680/welcome-desktop_bjto7l.mp4" type="video/mp4">
+    <source src="https://res.cloudinary.com/dzb2wocuz/video/upload/v1742552680/welcome-desktop_bjto7l.mp4"
+            type="video/mp4">
   </video>
 
-  <div class="gradient"></div>
+  <img id="gif"
+       class="gif"
+       src="https://res.cloudinary.com/dzb2wocuz/image/upload/v1743173705/scroll-down-mouse_mzvh2m.gif"
+       alt="Scroll gif"/>
+
+  <div id="gradient" class="gradient"></div>
 </section>
+
+<script is:inline>
+  setTimeout(function () {
+    document.getElementById('gif').style.transition = 'opacity 0.3s';
+    document.getElementById('gif').style.opacity = '0';
+  }, 3000);
+</script>
