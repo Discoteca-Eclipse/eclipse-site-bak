@@ -10,9 +10,10 @@ footer {
   .gradient {
     position: absolute;
     height: 800px;
-    width: 800px;
+    width: 100vw;
     top: -100px;
-    right: -125px;
+    object-fit: cover;
+    object-position: -250px;
   }
 
   .sections {
@@ -52,10 +53,12 @@ footer {
     }
 
     .gradient {
-      top: -200px;
-      right: calc(50% - 450px);
+      position: absolute;
       height: 900px;
       width: 900px;
+      top: -200px;
+      object-fit: cover;
+      object-position: 0;
     }
 
     .sections {

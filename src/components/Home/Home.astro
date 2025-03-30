@@ -6,6 +6,7 @@ import HomeBrands from "./components/HomeBrands/HomeBrands.astro";
 import HomeClub from "./components/HomeClub/HomeClub.astro";
 import HomeMarquee from "../react/HomeMarquee/HomeMarquee";
 import HomeUpcomingEvents from "../react/HomeUpcomingEvents/HomeUpcomingEvents";
+import { HomeDjsSwiper } from "../react/HomeDjsSwiper/HomeDjsSwiper";
 
 const lang = Astro.url.pathname.split('/')[1] ?? 'en';
 ---
@@ -17,6 +18,7 @@ const lang = Astro.url.pathname.split('/')[1] ?? 'en';
 
   <div class="home-content">
     <HomeUpcomingEvents client:only="react"/>
+    <HomeDjsSwiper client:only="react"/>
     <HomeClub/>
     <HomeBrands/>
   </div>

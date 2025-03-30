@@ -10,31 +10,32 @@ const MAX_EVENTS = 4;
 const HomeUpcomingEvents = () => {
   const [clubEvents, setClubEvents] = useState<ClubEventToList[] | null>(null);
   const [clubEventsOriginalLength, setClubEventsOriginalLength] = useState<number>(0);
-
   const lang = window.location.pathname.split('/')[1] ?? 'en';
 
   useEffect(() => {
     getUpcomingEvents().then(value => {
-      setClubEventsOriginalLength(value.length);
-      const toEvaluate = MAX_EVENTS - value.length;
-      let id = -1;
+      if (value.length > 0) {
+        setClubEventsOriginalLength(value.length);
+        const toEvaluate = MAX_EVENTS - value.length;
+        let id = -1;
 
-      for (let i = 0; i < toEvaluate; i++) {
-        value.push({
-          id,
-          name: getTranslation(lang, 'home.comingSoon'),
-          date: new Date(),
-          imageUrl: 'https://res.cloudinary.com/dzb2wocuz/image/upload/v1743167783/coming_soon_jnyrzf.jpg',
-        })
+        for (let i = 0; i < toEvaluate; i++) {
+          value.push({
+            id,
+            name: getTranslation(lang, 'home.comingSoon'),
+            date: new Date(),
+            imageUrl: 'https://res.cloudinary.com/dzb2wocuz/image/upload/v1743167783/coming_soon_jnyrzf.jpg',
+          })
 
-        id = id - 1;
+          id = id - 1;
+        }
       }
 
       setClubEvents(value);
     })
   }, [])
 
-  if (!clubEvents) {
+  if (!clubEvents || clubEvents.length === 0) {
     return null;
   }
 
