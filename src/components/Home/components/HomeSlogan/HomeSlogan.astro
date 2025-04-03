@@ -1,11 +1,13 @@
 ---
 import './HomeSlogan.scss';
 import {getTranslation} from "../../../../utils/i18n";
+import SectionLayout from "../../../../layouts/SectionLayout.astro";
 
 const lang = Astro.url.pathname.split('/')[1] ?? 'en';
-
 ---
 
-<h1 class="slogan">
-  {getTranslation(lang, 'home.slogan')}
-</h1>
+<SectionLayout containerClass="home-container">
+  <h1 class="slogan">
+    {getTranslation(lang, 'home.slogan')}
+  </h1>
+</SectionLayout>

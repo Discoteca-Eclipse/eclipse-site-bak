@@ -44,6 +44,12 @@ footer {
   }
 }
 
+@media (min-width: 576px) {
+  .sections {
+    width: calc(100% - 4rem);
+  }
+}
+
 @media (min-width: 768px) {
   footer {
     padding: 8rem 2rem 2rem 2rem;

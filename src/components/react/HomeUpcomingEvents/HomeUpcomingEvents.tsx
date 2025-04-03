@@ -40,7 +40,7 @@ const HomeUpcomingEvents = () => {
   }
 
   return (
-    <section className="upcoming-events-container">
+    <>
       <h1>{getTranslation(lang, 'home.upcomingEvents')}</h1>
 
       <div className="cards-container-slim">
@@ -54,7 +54,7 @@ const HomeUpcomingEvents = () => {
           <ClubEventCard key={event.id} item={event} lang={lang}/>
         )}
       </div>
-    </section>
+    </>
   );
 };
 
