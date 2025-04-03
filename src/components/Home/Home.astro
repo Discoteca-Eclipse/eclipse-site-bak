@@ -23,3 +23,50 @@ import HomeDjsSwiper from "../react/HomeDjsSwiper/HomeDjsSwiper";
     </SectionLayout>
   </div>
 </Layout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollDownElement = document.querySelector('.scroll-down');
+
+    document.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        scrollDownElement.classList.remove('fade-in');
+        scrollDownElement.classList.add('fade-out');
+      } else {
+        scrollDownElement.classList.remove('fade-out');
+        scrollDownElement.classList.add('fade-in');
+      }
+    });
+
+    function smoothScrollTo(top, duration) {
+      const start = window.scrollY;
+      const distance = top - start;
+      const startTime = performance.now();
+
+      function scrollStep(currentTime) {
+        const progress = (currentTime - startTime) / duration;
+        if (progress < 1) {
+          window.scrollTo(0, start + distance * progress);
+          requestAnimationFrame(scrollStep);
+        } else {
+          window.scrollTo(0, top);
+        }
+      }
+
+      requestAnimationFrame(scrollStep);
+    }
+
+    setTimeout(() => {
+      if (window.scrollY < 50) {
+        const scrollDuration = 1500;
+        const fasterDuration = scrollDuration * 0.5;
+
+        smoothScrollTo(window.scrollY + 100, fasterDuration);
+
+        setTimeout(() => {
+          smoothScrollTo(window.scrollY - 100, fasterDuration);
+        }, fasterDuration);
+      }
+    }, 500);
+  });
+</script>

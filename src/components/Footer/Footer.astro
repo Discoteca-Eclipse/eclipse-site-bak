@@ -8,10 +8,12 @@ import FooterSocial from "./components/FooterSocial/FooterSocial.astro";
 const currentYear = new Date().getFullYear();
 const lang = Astro.url.pathname.split('/')[1] ?? 'en';
 import gradient from '../../assets/images/gradient.png'
+import { Image } from 'astro:assets';
+
 ---
 
 <footer>
-  <img src={gradient.src} alt="gradient" class="gradient" draggable="false"/>
+  <Image src={gradient} alt="gradient" class="gradient" draggable="false"/>
 
   <div class="sections">
     <FooterAddress/>
@@ -19,7 +21,7 @@ import gradient from '../../assets/images/gradient.png'
     <FooterSocial/>
   </div>
 
-  <img src={logo.src} alt="Logo" class="logo"/>
+  <Image src={logo} alt="Logo" class="logo"/>
 
   <div class="copyright">
     <p>&copy; {currentYear} {getTranslation(lang, 'copy')}</p>
