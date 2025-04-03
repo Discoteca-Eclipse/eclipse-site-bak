@@ -56,17 +56,21 @@ import HomeDjsSwiper from "../react/HomeDjsSwiper/HomeDjsSwiper";
       requestAnimationFrame(scrollStep);
     }
 
-    setTimeout(() => {
-      if (window.scrollY < 50) {
-        const scrollDuration = 1500;
-        const fasterDuration = scrollDuration * 0.5;
+    if (!localStorage.getItem('scrollAnimationDone')) {
+      setTimeout(() => {
+        if (window.scrollY < 50) {
+          const scrollDuration = 1500;
+          const fasterDuration = scrollDuration * 0.35;
 
-        smoothScrollTo(window.scrollY + 100, fasterDuration);
+          smoothScrollTo(window.scrollY + 100, fasterDuration);
 
-        setTimeout(() => {
-          smoothScrollTo(window.scrollY - 100, fasterDuration);
-        }, fasterDuration);
-      }
-    }, 500);
+          setTimeout(() => {
+            smoothScrollTo(window.scrollY - 100, fasterDuration);
+
+            localStorage.setItem('scrollAnimationDone', 'true');
+          }, fasterDuration);
+        }
+      }, 500);
+    }
   });
 </script>

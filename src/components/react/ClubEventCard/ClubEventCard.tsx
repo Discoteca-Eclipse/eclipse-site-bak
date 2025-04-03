@@ -39,7 +39,7 @@ const ClubEventCard = ({item, lang}: Props) => {
           {item.id > 0 &&
             <p>
               <span>{getTranslation(lang, 'home.info')}</span>
-              {item.ticketsUrl && <span>/</span>}
+              {item.ticketsUrl && <span>&nbsp;/&nbsp;</span>}
               {item.ticketsUrl &&
                 <a href={item.ticketsUrl} target="_blank" rel="noopener" className="buy-tickets">
                   {getTranslation(lang, 'home.buyTickets')}
