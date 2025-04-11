@@ -10,7 +10,6 @@ interface Props {
 const ClubEventCard = ({item, lang}: Props) => {
   let formattedDate = getTranslation(lang, 'home.comingSoon');
 
-
   if (item && item.id > 0) {
     formattedDate = new Intl.DateTimeFormat(lang, {
       year: 'numeric',
@@ -18,7 +17,6 @@ const ClubEventCard = ({item, lang}: Props) => {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      timeZone: 'Europe/Madrid',
     }).format(new Date(item.date));
   }
 
