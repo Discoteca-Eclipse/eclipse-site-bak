@@ -10,16 +10,16 @@ interface Props {
 const ClubEventCard = ({item, lang}: Props) => {
   let formattedDate = getTranslation(lang, 'home.comingSoon');
 
+
   if (item && item.id > 0) {
-    const eventDate = new Date(item.date);
-    formattedDate = eventDate.toLocaleString(lang, {
+    formattedDate = new Intl.DateTimeFormat(lang, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
       timeZone: 'Europe/Madrid',
-    });
+    }).format(new Date(item.date));
   }
 
   return (
