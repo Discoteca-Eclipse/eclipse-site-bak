@@ -1,12 +1,13 @@
 ---
+import './Home.scss'
 import Layout from "../../layouts/Layout.astro";
 import HomeVideo from "./components/HomeVideo/HomeVideo.astro";
 import HomeSlogan from "./components/HomeSlogan/HomeSlogan.astro";
 import HomeClub from "./components/HomeClub/HomeClub.astro";
 import SectionLayout from "../../layouts/SectionLayout.astro";
+import HomeBirthday from "./components/HomeBirthday/HomeBirthday.astro";
 import HomeMarquee from "../react/HomeMarquee/HomeMarquee";
 import HomeUpcomingEvents from "../react/HomeUpcomingEvents/HomeUpcomingEvents";
-import HomeDjsSwiper from "../react/HomeDjsSwiper/HomeDjsSwiper";
 ---
 
 <Layout>
@@ -18,9 +19,7 @@ import HomeDjsSwiper from "../react/HomeDjsSwiper/HomeDjsSwiper";
       <HomeUpcomingEvents client:only="react"/>
     </SectionLayout>
     <HomeClub/>
-    <SectionLayout containerClass="djs-swiper-container">
-      <HomeDjsSwiper client:only="react"/>
-    </SectionLayout>
+    <HomeBirthday/>
   </div>
 </Layout>
 

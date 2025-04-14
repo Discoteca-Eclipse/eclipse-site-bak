@@ -1,0 +1,32 @@
+---
+import './HomeBirthday.scss'
+import {getTranslation} from "../../../../utils/i18n";
+import {PHONE} from "../../../../config/phone.constants";
+import SectionLayout from "../../../../layouts/SectionLayout.astro";
+const lang = Astro.url.pathname.split('/')[1] ?? 'en';
+---
+
+<SectionLayout containerClass="home-birthday-container">
+  <h2>
+    {getTranslation(lang, 'home.birthday.title')}
+  </h2>
+  <div class="img-container">
+    <img src="https://res.cloudinary.com/dzb2wocuz/image/upload/v1744369921/birthday_m6mem4.png" alt="Birthday">
+  </div>
+  <div class="cta-container">
+    <a
+      class="cta-button"
+      href={`https://wa.me/34${PHONE}?text=${encodeURIComponent(
+        `¡Hola! Quiero reservar el pack de cumpleaños 🎉\n\nImagen: https://res.cloudinary.com/dzb2wocuz/image/upload/v1744369921/birthday_m6mem4.png`
+      )}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {getTranslation(lang, 'home.birthday.cta')}
+    </a>
+
+    <a class="info-link">
+      {getTranslation(lang, 'home.birthday.moreInfo')}
+    </a>
+  </div>
+</SectionLayout>

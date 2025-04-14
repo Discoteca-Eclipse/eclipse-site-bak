@@ -1,15 +1,6 @@
 .home-club-container {
   position: relative;
 
-  h2 {
-    font-family: 'ClashDisplay-Bold', sans-serif;
-    font-size: 1.5rem;
-    color: #F3EAFF;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-bottom: 0;
-  }
-
   p {
     font-family: 'Jost Variable', sans-serif;
   }
@@ -30,10 +21,6 @@
 
 @media (min-width: 768px) {
   .home-club-container {
-    h2 {
-      font-size: 2rem;
-    }
-
     .img-container {
       img {
         width: 100%;
@@ -45,11 +32,6 @@
 
 @media (min-width: 992px) {
   .home-club-container {
-    h2 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
     p {
       width: 45%;
       position: absolute;
@@ -76,7 +58,5 @@
         height: 450px;
       }
     }
-
-
   }
 }

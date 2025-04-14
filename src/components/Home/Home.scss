@@ -1,0 +1,21 @@
+h2 {
+  font-family: 'ClashDisplay-Bold', sans-serif;
+  font-size: 1.5rem;
+  color: #F3EAFF;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 992px) {
+  h2 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+}
