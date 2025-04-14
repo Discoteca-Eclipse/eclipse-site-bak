@@ -16,9 +16,7 @@ const lang = Astro.url.pathname.split('/')[1] ?? 'en';
   <div class="cta-container">
     <a
       class="cta-button"
-      href={`https://wa.me/34${PHONE}?text=${encodeURIComponent(
-        `¡Hola! Quiero reservar el pack de cumpleaños 🎉\n\nImagen: https://res.cloudinary.com/dzb2wocuz/image/upload/v1744369921/birthday_m6mem4.png`
-      )}`}
+      href={`https://wa.me/34${PHONE}?text=${encodeURIComponent(getTranslation(lang, 'home.birthday.message'))}`}
       target="_blank"
       rel="noopener noreferrer"
     >
